@@ -11,7 +11,7 @@ pipeline {
             steps {
                 sh 'echo ===== CLONE STAGE ====='
                 sh 'echo Cloning repository...'
-                git 'https://github.com/your-repo/mini-project.git'
+                git 'https://github.com/yuddev28/todolist.git'
                 sh 'echo Clone done!'
             }
         }
