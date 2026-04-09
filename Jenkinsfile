@@ -9,12 +9,14 @@ pipeline {
 
         stage('Clone') {
             steps {
+                echo 'Cloning repository'
                 git 'https://github.com/your-repo/mini-project.git'
             }
         }
 
         stage('Install Backend') {
             steps {
+                echo 'Installing backend dependencies'
                 dir('backend') {
                     sh 'npm install'
                 }
@@ -23,6 +25,7 @@ pipeline {
 
         stage('Install Frontend') {
             steps {
+                echo 'Installing frontend dependencies'
                 dir('frontend') {
                     sh 'npm install'
                 }
@@ -31,6 +34,7 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
+                echo 'Building frontend'
                 dir('frontend') {
                     sh 'npm install'
                     sh 'npm run build'
@@ -40,6 +44,7 @@ pipeline {
 
         stage('Test Run Backend') {
             steps {
+                echo 'Testing backend'
                 dir('backend') {
                     sh 'node server.js &'
                 }
