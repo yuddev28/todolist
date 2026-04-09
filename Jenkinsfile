@@ -9,53 +9,53 @@ pipeline {
 
         stage('Clone') {
             steps {
-                sh 'echo ===== CLONE STAGE ====='
-                sh 'echo Cloning repository...'
+                bat 'echo ===== CLONE STAGE ====='
+                bat 'echo Cloning repository...'
                 git 'https://github.com/yuddev28/todolist.git'
-                sh 'echo Clone done!'
+                bat 'echo Clone done!'
             }
         }
 
         stage('Install Backend') {
             steps {
-                sh 'echo ===== INSTALL BACKEND ====='
+                bat 'echo ===== INSTALL BACKEND ====='
                 dir('backend') {
-                    sh 'echo Installing backend dependencies...'
-                    sh 'npm install'
-                    sh 'echo Backend install done!'
+                    bat 'echo Installing backend dependencies...'
+                    bat 'npm install'
+                    bat 'echo Backend install done!'
                 }
             }
         }
 
         stage('Install Frontend') {
             steps {
-                sh 'echo ===== INSTALL FRONTEND ====='
+                bat 'echo ===== INSTALL FRONTEND ====='
                 dir('frontend') {
-                    sh 'echo Installing frontend dependencies...'
-                    sh 'npm install'
-                    sh 'echo Frontend install done!'
+                    bat 'echo Installing frontend dependencies...'
+                    bat 'npm install'
+                    bat 'echo Frontend install done!'
                 }
             }
         }
 
         stage('Build Frontend') {
             steps {
-                sh 'echo ===== BUILD FRONTEND ====='
+                bat 'echo ===== BUILD FRONTEND ====='
                 dir('frontend') {
-                    sh 'echo Building frontend...'
-                    sh 'npm run build'
-                    sh 'echo Frontend build done!'
+                    bat 'echo Building frontend...'
+                    bat 'npm run build'
+                    bat 'echo Frontend build done!'
                 }
             }
         }
 
         stage('Test Run Backend') {
             steps {
-                sh 'echo ===== RUN BACKEND ====='
+                bat 'echo ===== RUN BACKEND ====='
                 dir('backend') {
-                    sh 'echo Starting backend server...'
-                    sh 'nohup node server.js > server.log 2>&1 &'
-                    sh 'echo Backend started in background!'
+                    bat 'echo Starting backend server...'
+                    bat 'nohup node server.js > server.log 2>&1 &'
+                    bat 'echo Backend started in background!'
                 }
             }
         }
@@ -63,13 +63,13 @@ pipeline {
 
     post {
         success {
-            sh 'echo ===== BUILD SUCCESS ====='
+            bat 'echo ===== BUILD SUCCESS ====='
         }
         failure {
-            sh 'echo ===== BUILD FAILED ====='
+            bat 'echo ===== BUILD FAILED ====='
         }
         always {
-            sh 'echo ===== PIPELINE FINISHED ====='
+            bat 'echo ===== PIPELINE FINISHED ====='
         }
     }
 }
