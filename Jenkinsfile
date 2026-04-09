@@ -2,51 +2,60 @@ pipeline {
     agent any
 
     tools {
-        nodejs "nodejs" // phải config trong Jenkins
+        nodejs "nodejs"
     }
 
     stages {
 
         stage('Clone') {
             steps {
-                echo 'Cloning repository'
+                sh 'echo ===== CLONE STAGE ====='
+                sh 'echo Cloning repository...'
                 git 'https://github.com/your-repo/mini-project.git'
+                sh 'echo Clone done!'
             }
         }
 
         stage('Install Backend') {
             steps {
-                echo 'Installing backend dependencies'
+                sh 'echo ===== INSTALL BACKEND ====='
                 dir('backend') {
+                    sh 'echo Installing backend dependencies...'
                     sh 'npm install'
+                    sh 'echo Backend install done!'
                 }
             }
         }
 
         stage('Install Frontend') {
             steps {
-                echo 'Installing frontend dependencies'
+                sh 'echo ===== INSTALL FRONTEND ====='
                 dir('frontend') {
+                    sh 'echo Installing frontend dependencies...'
                     sh 'npm install'
+                    sh 'echo Frontend install done!'
                 }
             }
         }
 
         stage('Build Frontend') {
             steps {
-                echo 'Building frontend'
+                sh 'echo ===== BUILD FRONTEND ====='
                 dir('frontend') {
-                    sh 'npm install'
+                    sh 'echo Building frontend...'
                     sh 'npm run build'
+                    sh 'echo Frontend build done!'
                 }
             }
         }
 
         stage('Test Run Backend') {
             steps {
-                echo 'Testing backend'
+                sh 'echo ===== RUN BACKEND ====='
                 dir('backend') {
-                    sh 'node server.js &'
+                    sh 'echo Starting backend server...'
+                    sh 'nohup node server.js > server.log 2>&1 &'
+                    sh 'echo Backend started in background!'
                 }
             }
         }
@@ -54,10 +63,13 @@ pipeline {
 
     post {
         success {
-            echo 'Build success!'
+            sh 'echo ===== BUILD SUCCESS ====='
         }
         failure {
-            echo 'Build failed!'
+            sh 'echo ===== BUILD FAILED ====='
+        }
+        always {
+            sh 'echo ===== PIPELINE FINISHED ====='
         }
     }
 }
