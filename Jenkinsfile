@@ -10,9 +10,7 @@ pipeline {
         stage('Clone') {
             steps {
                 bat 'echo ===== CLONE STAGE ====='
-                bat 'echo Cloning repository...'
-                git 'https://github.com/yuddev28/todolist.git'
-                bat 'echo Clone done!'
+                git branch: 'main', url: 'https://github.com/yuddev28/todolist.git'
             }
         }
 
