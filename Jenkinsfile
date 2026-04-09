@@ -52,8 +52,8 @@ pipeline {
                 bat 'echo ===== RUN BACKEND ====='
                 dir('backend') {
                     bat 'echo Starting backend server...'
-                    bat 'nohup node server.js > server.log 2>&1 &'
-                    bat 'echo Backend started in background!'
+                    bat 'start /B node server.js'
+                    bat 'echo Backend started!'
                 }
             }
         }
