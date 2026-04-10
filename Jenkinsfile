@@ -58,7 +58,7 @@ pipeline {
                 bat 'ping 127.0.0.1 -n 6 > nul'
                 // test API
                 bat '''
-                curl http://localhost:3000
+                curl http://localhost:5000
                 if %errorlevel% neq 0 exit /b 1
                 '''
             }
