@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Test Run Backend') {
+        stage('Test Backend') {
             steps {
                 bat 'echo ===== TEST BACKEND API ====='
 
@@ -55,7 +55,7 @@ pipeline {
                     bat 'start /B node server.js'
                 }
 
-                bat 'timeout /t 5 /nobreak'
+                bat 'ping 127.0.0.1 -n 6 > nul'
                 // test API
                 bat '''
                 curl http://localhost:3000
