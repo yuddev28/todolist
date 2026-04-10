@@ -57,31 +57,7 @@ pipeline {
                 }
             }
         }
-        stage('Kill Old Processes') {
-            steps {
-                bat 'echo ===== KILL OLD PROCESSES ====='
-
-                // backend port 3000
-                bat '''
-                netstat -aon | findstr :3000 > nul
-                if %errorlevel%==0 (
-                    for /f "tokens=5" %%a in ('netstat -aon ^| findstr :3000') do taskkill /F /PID %%a
-                ) else (
-                    echo No process on port 3000
-                )
-                '''
-
-                // frontend port 5173
-                bat '''
-                netstat -aon | findstr :5173 > nul
-                if %errorlevel%==0 (
-                    for /f "tokens=5" %%a in ('netstat -aon ^| findstr :5173') do taskkill /F /PID %%a
-                ) else (
-                    echo No process on port 5173
-                )
-                '''
-            }
-        }
+        
 
         // 🚀 Deploy Backend
         stage('Run Backend') {
