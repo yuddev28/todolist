@@ -49,17 +49,24 @@ pipeline {
 
         stage('Test Run Backend') {
             steps {
-                bat 'echo ===== RUN BACKEND ====='
+                bat 'echo ===== TEST BACKEND API ====='
+
                 dir('backend') {
-                    bat 'echo Starting backend server...'
+                    // chạy server tạm
                     bat 'start /B node server.js'
-                    bat 'echo Backend started!'
                 }
+
+                // đợi server chạy
+                bat 'timeout /t 5'
+
+                // test API (quan trọng)
+                bat '''
+                curl http://localhost:3000
+                if %errorlevel% neq 0 exit /b 1
+                '''
             }
         }
         
-
-        // 🚀 Deploy Backend
         stage('Run Backend') {
             steps {
                 bat 'echo ===== START BACKEND ====='
@@ -69,7 +76,6 @@ pipeline {
             }
         }
 
-        // 🚀 Deploy Frontend (dev mode Vite)
         stage('Run Frontend') {
             steps {
                 bat 'echo ===== START FRONTEND ====='
