@@ -57,24 +57,39 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Kill Old Processes') {
             steps {
-                bat 'echo ===== DEPLOY STAGE ====='
+                bat 'echo ===== KILL OLD PROCESSES ====='
+                
+                // kill port 3000 (backend)
+                bat '''
+                for /f "tokens=5" %%a in ('netstat -aon ^| findstr :3000') do taskkill /F /PID %%a
+                '''
 
-                bat 'npm install -g pm2'
-                bat 'npm install -g serve'
+                // kill port 5173 (frontend)
+                bat '''
+                for /f "tokens=5" %%a in ('netstat -aon ^| findstr :5173') do taskkill /F /PID %%a
+                '''
+            }
+        }
 
+        // 🚀 Deploy Backend
+        stage('Run Backend') {
+            steps {
+                bat 'echo ===== START BACKEND ====='
                 dir('backend') {
-                    bat 'pm2 delete todolist-backend || exit 0'
-                    bat 'pm2 start server.js --name todolist-backend'
+                    bat 'start /B node server.js'
                 }
+            }
+        }
 
+        // 🚀 Deploy Frontend (dev mode Vite)
+        stage('Run Frontend') {
+            steps {
+                bat 'echo ===== START FRONTEND ====='
                 dir('frontend') {
-                    bat 'pm2 delete todolist-frontend || exit 0'
-                    bat 'pm2 start "npx serve -s dist -l 3000" --name todolist-frontend'
+                    bat 'start /B npm run dev'
                 }
-
-                bat 'echo Deploy done!'
             }
         }
     }
