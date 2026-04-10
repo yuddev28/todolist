@@ -52,7 +52,7 @@ pipeline {
                 bat 'echo ===== TEST BACKEND API ====='
 
                 dir('backend') {
-                    bat 'start /B node server.js'
+                    bat 'node server.js'
                 }
 
                 bat 'ping 127.0.0.1 -n 6 > nul'
