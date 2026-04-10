@@ -57,6 +57,26 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                bat 'echo ===== DEPLOY STAGE ====='
+
+                bat 'npm install -g pm2'
+                bat 'npm install -g serve'
+
+                dir('backend') {
+                    bat 'pm2 delete todolist-backend || exit 0'
+                    bat 'pm2 start server.js --name todolist-backend'
+                }
+
+                dir('frontend') {
+                    bat 'pm2 delete todolist-frontend || exit 0'
+                    bat 'pm2 start "npx serve -s dist -l 3000" --name todolist-frontend'
+                }
+
+                bat 'echo Deploy done!'
+            }
+        }
     }
 
     post {
