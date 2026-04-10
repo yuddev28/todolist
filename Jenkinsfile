@@ -52,14 +52,10 @@ pipeline {
                 bat 'echo ===== TEST BACKEND API ====='
 
                 dir('backend') {
-                    // chạy server tạm
                     bat 'start /B node server.js'
                 }
 
-                // đợi server chạy
-                bat 'timeout /t 5'
-
-                // test API (quan trọng)
+                // test API
                 bat '''
                 curl http://localhost:3000
                 if %errorlevel% neq 0 exit /b 1
