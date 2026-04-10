@@ -60,15 +60,25 @@ pipeline {
         stage('Kill Old Processes') {
             steps {
                 bat 'echo ===== KILL OLD PROCESSES ====='
-                
-                // kill port 3000 (backend)
+
+                // backend port 3000
                 bat '''
-                for /f "tokens=5" %%a in ('netstat -aon ^| findstr :3000') do taskkill /F /PID %%a
+                netstat -aon | findstr :3000 > nul
+                if %errorlevel%==0 (
+                    for /f "tokens=5" %%a in ('netstat -aon ^| findstr :3000') do taskkill /F /PID %%a
+                ) else (
+                    echo No process on port 3000
+                )
                 '''
 
-                // kill port 5173 (frontend)
+                // frontend port 5173
                 bat '''
-                for /f "tokens=5" %%a in ('netstat -aon ^| findstr :5173') do taskkill /F /PID %%a
+                netstat -aon | findstr :5173 > nul
+                if %errorlevel%==0 (
+                    for /f "tokens=5" %%a in ('netstat -aon ^| findstr :5173') do taskkill /F /PID %%a
+                ) else (
+                    echo No process on port 5173
+                )
                 '''
             }
         }
