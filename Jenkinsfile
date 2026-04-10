@@ -55,6 +55,7 @@ pipeline {
                     bat 'start /B node server.js'
                 }
 
+                bat 'timeout /t 5 /nobreak'
                 // test API
                 bat '''
                 curl http://localhost:3000
